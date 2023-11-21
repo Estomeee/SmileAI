@@ -1,0 +1,14 @@
+.cont {
+    margin-bottom: 40px;
+}
+
+.img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.text {
+    margin-bottom: 20px;
+}

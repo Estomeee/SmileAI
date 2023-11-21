@@ -1,0 +1,33 @@
+.cont {
+    width: 130px;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    background: none;
+}
+
+.wrapper {
+    height: 100%;
+    overflow: hidden
+}
+
+.img {
+    width: 100%;
+
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.price {
+    margin: 8px 0;
+}
+
+.btn {
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    left: auto;
+    right: -5px;
+    top: -5px;
+}

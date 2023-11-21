@@ -1,0 +1,9 @@
+.cont {
+    width: 164px;
+    height: 164px;
+}
+
+.wrapper {
+    height: 100%;
+    overflow: hidden
+}

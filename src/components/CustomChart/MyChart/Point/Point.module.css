@@ -1,0 +1,10 @@
+.point {
+    
+    background-color: var(--vkui--color_background_accent_themed);
+
+    border-radius: 10px;
+}
+
+.point_hover {
+    background-color: red;
+}

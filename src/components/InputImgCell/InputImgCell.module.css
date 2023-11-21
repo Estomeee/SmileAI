@@ -1,0 +1,23 @@
+.imgCell {
+    width: calc((100% - 20px) / 3);
+    border-radius: 16px;
+}
+
+.input {
+    display: flex;
+    justify-content: center;
+}
+
+.img {
+    border-radius: 16px;
+    filter: brightness(50%);
+}
+
+.btnDelete {
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    left: auto;
+    right: -5px;
+    top: -5px;
+}
