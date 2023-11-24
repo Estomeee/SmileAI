@@ -5,11 +5,12 @@ import { Text } from '@vkontakte/vkui';
 
 import Tooltip from './Tooltip/Tooltip';
 import Point from './Point/Point';
+import { IStatisticsData } from '../../../api/requests/Statistics.request';
 
 
 interface Props extends PropsWithChildren {
     height: number,
-    dataset: { x: string, y: number }[],
+    dataset: IStatisticsData[],
 }
 
 const MyChart: FC<Props> = ({ height, dataset }) => {
@@ -26,9 +27,9 @@ const MyChart: FC<Props> = ({ height, dataset }) => {
             <div className={classes.chart} ref={ref} style={{height: height}}>
                 {dataset.map(point => {
                     return (<Point
-                        id={point.x}
-                        key={point.x}
-                        valueX={point.x}
+                        id={point.date}
+                        key={point.date}
+                        valueX={point.date}
                         valueY={point.y}
                         setTooltip={setTooltip}
                         width={8}

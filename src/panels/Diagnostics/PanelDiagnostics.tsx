@@ -102,6 +102,7 @@ const PanelDiagnostics: FC<panel> = ({ id, setPanel, setModal }) => {
             setPanel('resultDiagnostics')
         }
     }
+    
 
     return (
         <PanelTemplate id={id} header="Диагностика" onClickBack={() => setPanel('main')}>

@@ -1,106 +1,72 @@
-import  { FC } from "react";
-import { Group as GroupVK, Button} from "@vkontakte/vkui";
+import { FC, useState, useEffect } from "react";
+import { Group as GroupVK, Button, Spinner } from "@vkontakte/vkui";
 
 import Category from "../components/Category/Category";
 import FixedDownBtns from "../components/FixedDownBtns/FixedDownBtns";
 import PanelTemplate from "./PanelTemplate";
+import { getCategories, getProducts, ICategory, initStore, IProduct } from "../api/requests/Store.requests";
 
-interface panel {
+interface IPanel {
     id: string
     setPanel: any
-    bucket: number[]
-    setBucket: any
+    bucket: IProduct[]
+    setBucket: React.Dispatch<React.SetStateAction<IProduct[]>>
+    setCategories: React.Dispatch<React.SetStateAction<string[]>>
+    setProductsByCategories: React.Dispatch<React.SetStateAction<ICategory[]>>
+    categories: string[]
+    productsByCategories: ICategory[]
 }
 
 
-const PanelStore: FC<panel> = ({ id, setPanel, bucket, setBucket }) => {
+const PanelStore: FC<IPanel> = ({
+    id,
+    setPanel,
+    bucket,
+    setBucket,
+    categories,
+    setCategories,
+    productsByCategories,
+    setProductsByCategories }) => {
 
-    const onClickAdd = (id: number) => {
-        if (bucket.includes(id)) return
-        setBucket([...bucket, id])
+    useEffect(() => {
+        if (categories.length > 0 && categories.length > 0 ) return
+        console.log('store');
+        initStore().then(({ categories, catProducts }) => {
+            setCategories(categories)
+            setProductsByCategories(catProducts)
+        })
+    }, [])
+
+    const checkIsAdded = (bucket: IProduct[], product: IProduct) => {
+        for (let i = 0; i < bucket.length; i++) {
+            if (bucket[i].id == product.id) return true
+        }
+        return false
     }
 
-    let categories = [
-        {
-            nameCategory: 'Зубные пасты',
-            products: [
-                {
-                    id: 1, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://pharmmedprom.ru/wp-content/uploads/2023/06/istock-1096108406.jpg'
-
-                },
-                {
-                    id: 2, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://gipermix.ru/upload/iblock/0a1/0a157744f4947999979c47c965ef1ff7.jpg'
-                },
-                {
-                    id: 3, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://gipermix.ru/upload/iblock/0a1/0a157744f4947999979c47c965ef1ff7.jpg',
-                },
-                {
-                    id: 4, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://gipermix.ru/upload/iblock/0a1/0a157744f4947999979c47c965ef1ff7.jpg',
-                },
-            ]
-        },
-        {
-            nameCategory: 'Зубные пасты1',
-            products: [
-                {
-                    id: 5, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://pharmmedprom.ru/wp-content/uploads/2023/06/istock-1096108406.jpg',
-                },
-                {
-                    id: 6, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://cdn1.ozone.ru/s3/multimedia-9/6665697729.jpg',
-                },
-                {
-                    id: 7, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://gipermix.ru/upload/iblock/0a1/0a157744f4947999979c47c965ef1ff7.jpg',
-                },
-                {
-                    id: 8, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://gipermix.ru/upload/iblock/0a1/0a157744f4947999979c47c965ef1ff7.jpg',
-                },
-            ]
-        },
-        {
-            nameCategory: 'Зубные пасты2',
-            products: [
-                {
-                    id: 9, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://pharmmedprom.ru/wp-content/uploads/2023/06/istock-1096108406.jpg',
-                },
-                {
-                    id: 10, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://cdn1.ozone.ru/s3/multimedia-9/6665697729.jpg',
-                },
-                {
-                    id: 11, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://gipermix.ru/upload/iblock/0a1/0a157744f4947999979c47c965ef1ff7.jpg',
-                },
-                {
-                    id: 12, name: 'Зубная паста "ЧитоЗубец"', price: 99,
-                    imgLink: 'https://gipermix.ru/upload/iblock/0a1/0a157744f4947999979c47c965ef1ff7.jpg',
-                },
-            ]
-        }
-    ]
+    const onClickAdd = (product: IProduct) => {
+        if (checkIsAdded(bucket, product)) return
+        setBucket([...bucket, product])
+    }
 
     return (
         <PanelTemplate id={id} header="Магазин" onClickBack={() => setPanel('main')}>
             <GroupVK style={{ marginBottom: 100 }}>
-                {categories.map((e) => {
-                    return (
-                        <Category
-                            bucket={bucket}
-                            nameCategory={e.nameCategory}
-                            products={e.products}
-                            onClickBtn={(id) => onClickAdd(id)}
-                            onClickItem={(id) => console.log(id)}
-                        />
-                    )
-                })}
+                {productsByCategories.length <= 0 ?
+                    <Spinner size="medium" style={{ margin: '20px 0' }} /> :
+
+                    productsByCategories.map((item) => {
+                        return (
+                            <Category
+                                key={item.nameCategory}
+                                bucket={bucket}
+                                nameCategory={item.nameCategory}
+                                products={item.products}
+                                onClickBtn={(product: IProduct) => onClickAdd(product)}
+                                onClickItem={(id) => console.log(id)}
+                            />
+                        )
+                    })}
             </GroupVK>
 
             <FixedDownBtns btns={[

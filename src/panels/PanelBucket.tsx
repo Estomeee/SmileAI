@@ -1,32 +1,34 @@
-import React, { FC, useState } from "react";
-import bridge from "@vkontakte/vk-bridge";
+import { FC } from "react";
 import {
     useAdaptivityWithJSMediaQueries,
-    Panel, PanelHeader, PanelHeaderBack, PanelHeaderButton,
-    CardScroll, Group as GroupVK, CardGrid, Card, Cell,
-    List, Div, Avatar, Counter,
-    ButtonGroup, Button,
-    Header, Title, Text,
-
-    Spacing, Separator,
-}
-    from "@vkontakte/vkui";
+    Group as GroupVK,
+    List, Div,
+} from "@vkontakte/vkui";
 import PanelTemplate from "./PanelTemplate";
+import { IProduct } from "../api/requests/Store.requests";
+import ProductItem from "../components/ProductItem/ProductItem";
 
-interface panel {
+
+interface Props {
     id: string
     setPanel: any
-    bucket: number[]
+    bucket: IProduct[]
 }
 
-const PanelBucket: FC<panel> = ({ id, setPanel, bucket }) => {
-
-    const { isDesktop } = useAdaptivityWithJSMediaQueries()
-
+const PanelBucket: FC<Props> = ({ id, setPanel, bucket }) => {
     return (
         <PanelTemplate id={id} header="Коризна" onClickBack={() => setPanel('main')}>
             <GroupVK>
-                {bucket}
+                <Div>
+                    <List style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                        {bucket.map((product) => {
+                            console.log(product);
+                            return (
+                                <ProductItem key={product.id} product={product} width="calc( (100% - 10px) / 2)" labalBtn="Убрать" />
+                            )
+                        })}
+                    </List>
+                </Div>
             </GroupVK>
         </PanelTemplate>
     )

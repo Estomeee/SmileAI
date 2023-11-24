@@ -1,6 +1,4 @@
 .cont {
-    width: 130px;
-
     margin-top: 10px;
     margin-bottom: 10px;
 
@@ -30,4 +28,11 @@
     left: auto;
     right: -5px;
     top: -5px;
+}
+
+
+.name {
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
 }

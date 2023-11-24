@@ -1,6 +1,6 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import bridge from "@vkontakte/vk-bridge";
-import { useAdaptivityWithJSMediaQueries, CardScroll, Group as GroupVK, Separator, Panel, PanelHeader, List, Div, Avatar, Title, Text, CardGrid, Card, Button, ButtonGroup, Header, Cell, Spacing } from "@vkontakte/vkui";
+import { useAdaptivityWithJSMediaQueries, CardScroll, Group as GroupVK, Div, CardGrid } from "@vkontakte/vkui";
 import UserInfo from "../components/UserInfo/UserInfo";
 import MainButtonGroup from "../components/MainButtonGroup/MainButtonGroup";
 import CustomChart from "../components/CustomChart/CustomChart";
@@ -11,42 +11,23 @@ import Group from "../components/Group/Group";
 import MyChart from "../components/CustomChart/MyChart/MyChart";
 import MainActionBlock from "../components/MainActionBlock/MainActionBlock";
 import PanelTemplate from "./PanelTemplate";
+import { IUserVK } from "../api/requests/User.requests";
+import { IStatisticsData, IHint } from "../api/requests/Statistics.request";
 
-
-interface panel {
+interface IPanel {
     id: string
     setPanel: any
+    user: IUserVK
+    data: IStatisticsData[],
+    hints: IHint[]
 }
 
-const PanelMain: FC<panel> = ({ id, setPanel }) => {
+const PanelMain: FC<IPanel> = ({ id, setPanel, user, data, hints }) => {
+
     const { isDesktop } = useAdaptivityWithJSMediaQueries()
 
     const pat = [{ key: 0, val: 'Кариес' }, { key: 1, val: 'Проблемы с дёснаснами' }, { key: 2, val: 'Скол' }, { key: 3, val: 'Что-то ещё' }, { key: 4, val: 'А? 5' }]
-    const hints = [
-        { key: 0, title: "Чистите зубы чаще", description: "Чистить зыбу надо каждый день по 1444 раза, а то выпадут нахуй!" },
-        { key: 1, title: "Чистите зубы чаще", description: "Чистить зыбу надо каждый день по 1444 раза, а то выпадут нахуй!" },
-        { key: 2, title: "Чистите зубы чаще", description: "Чистить зыбу надо каждый день по 1444 раза, а то выпадут нахуй!" },
-        { key: 3, title: "Чистите зубы чаще", description: "Чистить зыбу надо каждый день по 1444 раза, а то выпадут нахуй!" },
-        { key: 4, title: "Чистите зубы чаще", description: "Чистить зыбу надо каждый день по 1444 раза, а то выпадут нахуй!" }]
-
-
-    const sizeData = 25
-
-    let dataset: { x: string, y: number }[] = []
-    for (let i = 0; i < sizeData; i++) {
-        dataset.push({
-            x: i.toString() + " ноября 2023",
-            y: 60 + i * 10
-        })
-    }
-
-    let dataset2: { x: string, y: number }[] = []
-    for (let i = 0; i < 40; i++) {
-        dataset2.push({
-            x: i.toString() + " ноября 2023",
-            y: 100
-        })
-    }
+    
 
     return (
         <PanelTemplate id={id} header="Улыбнись AI">
@@ -55,7 +36,7 @@ const PanelMain: FC<panel> = ({ id, setPanel }) => {
 
             <MainActionBlock
                 content={
-                    <UserInfo></UserInfo>
+                    <UserInfo user={user}></UserInfo>
                 }
                 buttons={[
                     { onClick: () => setPanel('diagnostics'), stretched: true, children: 'Провести диагностику' },
@@ -67,14 +48,18 @@ const PanelMain: FC<panel> = ({ id, setPanel }) => {
                 <CardGrid size="l" spaced>
                     <CustomCard header="Сосотояние вашей улыбки">
                         <Div>
-                            {isDesktop ? <MyChart height={80} dataset={dataset2} /> :
-                                <MyChart height={80} dataset={dataset} />}
+                            {
+                                data.length > 0 ? <MyChart height={80} dataset={data} /> :
+                                    'Данных ещё нет'
+                            }
                         </Div>
                     </CustomCard>
 
-                    <CustomCard header="Патологии">
+                    {/* <CustomCard header="Патологии">
                         <VerticalList list={pat}></VerticalList>
-                    </CustomCard>
+                    </CustomCard> 
+                            Переделать компонент в соответсвии с новыми требованиями
+                    */}
                 </CardGrid>
             </Group>
 
@@ -83,7 +68,7 @@ const PanelMain: FC<panel> = ({ id, setPanel }) => {
                     {
                         hints.map((hint) => {
                             return (
-                                <HintCard title={hint.title} description={hint.description}></HintCard>
+                                <HintCard key={hint.id} title={hint.title} description={hint.text}></HintCard>
                             )
                         })
                     }

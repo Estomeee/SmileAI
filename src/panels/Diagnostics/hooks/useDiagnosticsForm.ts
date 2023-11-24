@@ -19,7 +19,6 @@ export const useDiagnosticsForm = () => {
 
     const onChange = <TKey extends keyof DiagnosticsForm>(field: TKey, value: DiagnosticsForm[TKey]) => {
         
-        
         setForm(prev => ({
             ...prev,
             [field]: value, 

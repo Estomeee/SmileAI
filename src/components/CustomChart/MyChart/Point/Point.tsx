@@ -35,7 +35,7 @@ const Point: FC<Props> = ({ setTooltip, valueX, valueY, width, height, id }) => 
             id={id}
             style={{
                 width: width,
-                height: height * valueY / 100 > height? height: height * valueY / 100
+                height: height * valueY / 100 > height? height: height * valueY / 100 + 40 // 40 убрать
             }}
             className={style}
             onMouseEnter={hover}

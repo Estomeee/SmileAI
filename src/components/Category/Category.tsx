@@ -2,40 +2,39 @@ import { FC } from 'react'
 import { CardScroll, Text } from '@vkontakte/vkui'
 import ProductItem from '../ProductItem/ProductItem'
 import Group from '../Group/Group'
+import { IProduct } from '../../api/requests/Store.requests'
 
 interface Props {
     nameCategory: string
-    products: {
-        id: number,
-        name: string,
-        price: string | number,
-        imgLink: string,
-        isAdded?: boolean,
-    }[]
-    bucket: number[]
+    products: IProduct[]
+    bucket: IProduct[]
     onClickItem?: ((id: number) => void) | undefined
-    onClickBtn?: ((id: number) => void) | undefined
+    onClickBtn?: ((product: IProduct) => void) | undefined
+}
+
+const checkIsAdded = (bucket: IProduct[], product: IProduct) => {
+    for (let i = 0; i < bucket.length; i++) {
+        if (bucket[i].id == product.id) return true
+    }
+    return false
 }
 
 const Category: FC<Props> = ({ nameCategory, products, bucket, onClickBtn, onClickItem }) => {
+
     return (
-
-
         <Group header={nameCategory}>
             <CardScroll size={false} withSpaces>
                 {products.map((product) => {
 
                     return (
                         <ProductItem
-                            id={product.id}
-                            imgLink={product.imgLink}
-                            name={product.name}
-                            price={product.price}
+                            key={product.id}
+                            product={product}
+                            labalBtn='В корзину'
                             onClickItem={onClickItem}
                             onClickBtn={onClickBtn}
-                            isAdded={bucket.includes(product.id)}
-                        />
-                    )
+                            isAdded={checkIsAdded(bucket, product)} 
+                            width='130px'/>)
                 })}
             </CardScroll>
         </Group >
