@@ -68,7 +68,7 @@ function App() {
                                                 categories={categories}
                                                 bucket={bucket}
                                                 setBucket={setBucket} />
-                                            <PanelBucket bucket={bucket} id='bucket' setPanel={setPanel} />
+                                            <PanelBucket apiID={user? user.id : -1} setBucket={setBucket} bucket={bucket} vkID={userVK.id} id='bucket' setPanel={setPanel} />
                                             <PanelResultDiagnostics id='resultDiagnostics' setPanel={setPanel} />
                                             <PanelError id='error' />
                                         </View>

@@ -1,5 +1,5 @@
-import { AspectRatio, Button, Caption, Card, Div, IconButton, Spacing, Text } from "@vkontakte/vkui";
-import { FC } from "react";
+import { AspectRatio, Button, Caption, Card, Div, IconButton, Spacing, Spinner, Text } from "@vkontakte/vkui";
+import { FC, useState } from "react";
 import classes from './ProductItem.module.css'
 import { Icon20ShoppingCartOutline } from '@vkontakte/icons';
 import { Icon28MarketAddBadgeOutline } from '@vkontakte/icons';
@@ -12,10 +12,12 @@ interface Props {
     labalBtn?: string
     onClickItem?: (id: number) => void
     isAdded?: boolean
-    onClickBtn?: (id: IProduct) => void
+    onClickBtn?: (id: IProduct) => Promise<void>
 }
 
 const ProductItem: FC<Props> = ({ product, onClickItem, onClickBtn, isAdded = false, width, labalBtn }) => {
+
+    const [load, setLoad] = useState<boolean>(false)
 
     return (
         <Card className={classes.cont} style={{ width: width ? width : '100%' }}>
@@ -31,14 +33,14 @@ const ProductItem: FC<Props> = ({ product, onClickItem, onClickBtn, isAdded = fa
                 <Button
                     stretched
                     disabled={isAdded}
-                    onClick={onClickBtn && (() =>
-                        onClickBtn({
-                            id: product.id,
-                            name: product.name,
-                            image_url: product.image_url,
-                            price: product.price
-                        }))}
-                    mode="secondary">{labalBtn}</Button>}
+                    onClick={onClickBtn && (() => {
+                        setLoad(true)
+                        onClickBtn(product).then(() => {
+                            console.log(';;')
+                            setLoad(false)
+                        })
+                    })}
+                    mode="secondary">{load ? <Spinner /> : labalBtn}</Button>}
 
         </Card>
     )

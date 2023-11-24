@@ -40,18 +40,26 @@ export async function init(onError: () => void) {
 
 
     // последний этап - получение данных по зубам ( данные для диаграммы, паталогии, рекомендации )
-    const {hints, data} = await getStartStatistic(userVK.id, onError)
+    const { hints, data } = await getStartStatistic(userVK.id, onError)
 
-    return { user: userApi.object, bucket: bucket, userVK: userVK, statisticsData: data, hints: hints }
+    return {
+        user: userApi.object,
+        bucket: {
+            id: userApi.object? userApi.object.curent_cart_id : -1,
+            products: bucket? bucket : []
+        },
+        userVK: userVK,
+        statisticsData: data, hints: hints
+    }
 
 }
 
 export const useInit = (onError: () => void) => {
 
     const [load, setLoad] = useState<boolean>(false)
-    const [bucket, setBucket] = useState<IProduct[]>([])
+    const [bucket, setBucket] = useState<{ id: number, products: IProduct[] }>({ id: -1, products: [] })
     const [user, setUser] = useState<IUserAPI | null>(null)
-    const [userVK, setUserVK] = useState<IUserVK>({id: -1, name: '', surname: '', img: ''})
+    const [userVK, setUserVK] = useState<IUserVK>({ id: -1, name: '', surname: '', img: '' })
     const [statisticsData, setStatisticsData] = useState<IStatisticsData[]>([])
     const [hints, setHints] = useState<IHint[]>([])
 
@@ -59,7 +67,7 @@ export const useInit = (onError: () => void) => {
         init(onError)
             .then(({ user, bucket, userVK, statisticsData, hints }) => {
                 setUser(user)
-                setBucket(bucket ? bucket : [])
+                setBucket((bucket.id && bucket.products) ? bucket : { id: -1, products: [] })
                 setLoad(true)
                 setUserVK(userVK)
                 setStatisticsData(statisticsData)

@@ -1,35 +1,71 @@
 import { FC } from "react";
 import {
-    useAdaptivityWithJSMediaQueries,
     Group as GroupVK,
-    List, Div,
+    List, Div, Button,
 } from "@vkontakte/vkui";
 import PanelTemplate from "./PanelTemplate";
 import { IProduct } from "../api/requests/Store.requests";
 import ProductItem from "../components/ProductItem/ProductItem";
+import { createNewBucket, removeFromBucket } from "../api/requests/Bucket.requets";
+import FixedDownBtns from "../components/FixedDownBtns/FixedDownBtns";
 
 
 interface Props {
     id: string
     setPanel: any
-    bucket: IProduct[]
+    bucket: { id: number, products: IProduct[] }
+    vkID: number
+    apiID: number
+    setBucket: any
 }
 
-const PanelBucket: FC<Props> = ({ id, setPanel, bucket }) => {
+
+
+const PanelBucket: FC<Props> = ({ id, setPanel, bucket, vkID, setBucket, apiID }) => {
+
+    const removeItem = (product: IProduct) => {
+        return removeFromBucket(bucket.id, product.id).then((ans) => {
+            if (ans) setBucket({ id: bucket.id, products: bucket.products.filter((item) => item.id != product.id) })
+            else console.log('Не удалён');
+
+        })
+    }
+
     return (
         <PanelTemplate id={id} header="Коризна" onClickBack={() => setPanel('main')}>
             <GroupVK>
                 <Div>
                     <List style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                        {bucket.map((product) => {
-                            console.log(product);
+                        {bucket.products.map((product) => {
+                            console.log();
+
                             return (
-                                <ProductItem key={product.id} product={product} width="calc( (100% - 10px) / 2)" labalBtn="Убрать" />
+                                <ProductItem
+                                    key={product.id}
+                                    product={product}
+                                    width="calc( (100% - 10px) / 2)"
+                                    labalBtn="Убрать"
+                                    onClickBtn={removeItem}
+                                />
                             )
                         })}
                     </List>
                 </Div>
             </GroupVK>
+            <FixedDownBtns btns={[
+                (<Button
+                    size="m"
+                    stretched
+                    mode="primary"
+                    onClick={() => createNewBucket(apiID).then((ans) => {
+                        if (ans) setBucket({id:ans.curent_cart_id, products: [] })
+                        else console.log('Ошибка при создании новой корзины');
+                        
+                    })}>
+                    {'Оформить заказ'}
+                </Button>)
+            ]} />
+
         </PanelTemplate>
     )
 }

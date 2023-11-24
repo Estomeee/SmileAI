@@ -5,12 +5,16 @@ import Category from "../components/Category/Category";
 import FixedDownBtns from "../components/FixedDownBtns/FixedDownBtns";
 import PanelTemplate from "./PanelTemplate";
 import { getCategories, getProducts, ICategory, initStore, IProduct } from "../api/requests/Store.requests";
+import { addToBucket } from "../api/requests/Bucket.requets";
 
 interface IPanel {
     id: string
     setPanel: any
-    bucket: IProduct[]
-    setBucket: React.Dispatch<React.SetStateAction<IProduct[]>>
+    bucket: { id: number, products: IProduct[] }
+    setBucket: React.Dispatch<React.SetStateAction<{
+        id: number;
+        products: IProduct[];
+    }>>
     setCategories: React.Dispatch<React.SetStateAction<string[]>>
     setProductsByCategories: React.Dispatch<React.SetStateAction<ICategory[]>>
     categories: string[]
@@ -26,10 +30,11 @@ const PanelStore: FC<IPanel> = ({
     categories,
     setCategories,
     productsByCategories,
-    setProductsByCategories }) => {
+    setProductsByCategories,
+}) => {
 
     useEffect(() => {
-        if (categories.length > 0 && categories.length > 0 ) return
+        if (categories.length > 0 && categories.length > 0) return
         console.log('store');
         initStore().then(({ categories, catProducts }) => {
             setCategories(categories)
@@ -45,8 +50,14 @@ const PanelStore: FC<IPanel> = ({
     }
 
     const onClickAdd = (product: IProduct) => {
-        if (checkIsAdded(bucket, product)) return
-        setBucket([...bucket, product])
+        return addToBucket(bucket.id, product.id).then((ans) => {
+            if (ans)
+                setBucket({ id: bucket.id, products: [...bucket.products, product] })
+            else console.log('Не добалвен');
+            
+        }
+        )
+
     }
 
     return (
@@ -59,10 +70,10 @@ const PanelStore: FC<IPanel> = ({
                         return (
                             <Category
                                 key={item.nameCategory}
-                                bucket={bucket}
+                                bucket={bucket.products}
                                 nameCategory={item.nameCategory}
                                 products={item.products}
-                                onClickBtn={(product: IProduct) => onClickAdd(product)}
+                                onClickBtn={onClickAdd}
                                 onClickItem={(id) => console.log(id)}
                             />
                         )
@@ -75,7 +86,7 @@ const PanelStore: FC<IPanel> = ({
                     stretched
                     mode="secondary"
                     onClick={() => setPanel('bucket')}>
-                    {'Корзина(' + bucket.length + ')'}
+                    {'Корзина(' + bucket.products.length + ')'}
                 </Button>)
             ]}>
             </FixedDownBtns>

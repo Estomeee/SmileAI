@@ -9,7 +9,7 @@ interface Props {
     products: IProduct[]
     bucket: IProduct[]
     onClickItem?: ((id: number) => void) | undefined
-    onClickBtn?: ((product: IProduct) => void) | undefined
+    onClickBtn?: ((product: IProduct) => any) | undefined
 }
 
 const checkIsAdded = (bucket: IProduct[], product: IProduct) => {
