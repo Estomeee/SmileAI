@@ -21,6 +21,7 @@ import PanelError from './panels/PanelError';
 import { IUserAPI } from './api/requests/User.requests';
 import { ICategory, IProduct } from './api/requests/Store.requests';
 import { useInit } from './hooks/useInit';
+import PanelFastDiagnostics from './panels/Diagnostics/PanelFastDiagnostics';
 
 
 
@@ -31,6 +32,7 @@ function App() {
     const [popout, setPopout] = useState(null)
     const [categories, setCategories] = useState<string[]>([])
     const [productsByCategories, setProductsByCategories] = useState<ICategory[]>([])
+    const [mark, setMark] = useState(0)
 
     const closeModal = () => setModal('')
 
@@ -38,6 +40,8 @@ function App() {
 
     const platform = usePlatform();
     const { isDesktop } = useAdaptivityWithJSMediaQueries();
+
+
 
     // const [bucket, setBucket] = useState<number[]>([1, 2])
 
@@ -68,9 +72,10 @@ function App() {
                                                 categories={categories}
                                                 bucket={bucket}
                                                 setBucket={setBucket} />
-                                            <PanelBucket apiID={user? user.id : -1} setBucket={setBucket} bucket={bucket} vkID={userVK.id} id='bucket' setPanel={setPanel} />
-                                            <PanelResultDiagnostics id='resultDiagnostics' setPanel={setPanel} />
+                                            <PanelBucket apiID={user ? user.id : -1} setBucket={setBucket} bucket={bucket} vkID={userVK.id} id='bucket' setPanel={setPanel} />
+                                            <PanelResultDiagnostics id='resultDiagnostics' setPanel={setPanel} mark={mark} hints={hints}/>
                                             <PanelError id='error' />
+                                            <PanelFastDiagnostics id='fast' apiID={user ? user.id : -1} setModal={setModal} setPanel={setPanel} setMark={setMark} />
                                         </View>
                                     </Root>
                                 </SplitLayout>

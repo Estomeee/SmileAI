@@ -5,6 +5,7 @@ import {
     Div,
     Button, ButtonGroup, Spacing,
     Caption,
+    Select,
 } from "@vkontakte/vkui";
 import Group from "../../components/Group/Group";
 
@@ -102,7 +103,7 @@ const PanelDiagnostics: FC<panel> = ({ id, setPanel, setModal }) => {
             setPanel('resultDiagnostics')
         }
     }
-    
+
 
     return (
         <PanelTemplate id={id} header="Диагностика" onClickBack={() => setPanel('main')}>

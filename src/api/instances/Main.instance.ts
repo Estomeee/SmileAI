@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const instance = axios.create({
     baseURL: 'https://51.250.123.14:8081/api/',
-    timeout: 1000,
+    timeout: 8000,
     headers: { 'sign-url': 'foobar' } //
 });
 
@@ -14,7 +14,9 @@ export const APIPoints = {
     categories: 'products/vk/category',
     addToBucket: 'cart/add_to_cart',
     removeFromBucket: 'cart/remove_from_cart',
-    createNewBucket: 'cart/new_cart'
+    createNewBucket: 'cart/new_cart',
+    createDiagnostics: 'researches/',
+    sendFormDiagnosics: 'researches/upload_photo/'
 }
 
 export default instance

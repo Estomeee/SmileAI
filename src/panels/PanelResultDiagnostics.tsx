@@ -14,28 +14,23 @@ import BigNumber from "../components/BigNumber/BigNumber";
 import FixedDownBtns from "../components/FixedDownBtns/FixedDownBtns";
 import MainActionBlock from "../components/MainActionBlock/MainActionBlock";
 import PanelTemplate from "./PanelTemplate";
+import { IHint } from "../api/requests/Statistics.request";
 
 interface panel {
     id: string
     setPanel: any
+    mark: number
+    hints: IHint[]
 }
 
-const pat = [{ key: 0, val: 'Кариес' }, { key: 1, val: 'Проблемы с дёснаснами' }, { key: 2, val: 'Скол' }, { key: 3, val: 'Что-то ещё' }, { key: 4, val: 'А? 5' }]
-const hints = [
-    { key: 0, title: "Чистите зубы чаще", description: "Чистить зыбу надо каждый день по 1444 раза, а то выпадут нахуй!" },
-    { key: 1, title: "Чистите зубы чаще", description: "Чистить зыбу надо каждый день по 1444 раза, а то выпадут нахуй!" },
-    { key: 2, title: "Чистите зубы чаще", description: "Чистить зыбу надо каждый день по 1444 раза, а то выпадут нахуй!" },
-    { key: 3, title: "Чистите зубы чаще", description: "Чистить зыбу надо каждый день по 1444 раза, а то выпадут нахуй!" },
-    { key: 4, title: "Чистите зубы чаще", description: "Чистить зыбу надо каждый день по 1444 раза, а то выпадут нахуй!" }]
 
-
-const PanelResultDiagnostics: FC<panel> = ({ id, setPanel }) => {
+const PanelResultDiagnostics: FC<panel> = ({ id, setPanel, mark, hints }) => {
 
     return (
         <PanelTemplate id={id} header="Диагностика" onClickBack={() => setPanel('main')}>
             <MainActionBlock
                 content={
-                    <BigNumber number={89} text="Общая оценка"></BigNumber>
+                    <BigNumber number={mark * 100} text="Общая оценка"></BigNumber>
                 }
                 buttons={[
                     { stretched: true, children: 'На гавную', onClick: () => setPanel('main') },
@@ -44,7 +39,7 @@ const PanelResultDiagnostics: FC<panel> = ({ id, setPanel }) => {
 
 
 
-            <Group header={"Вот, что видит ИИ"}>
+            {/* <Group header={"Вот, что видит ИИ"}>
                 <CardScroll size={false} withSpaces>
                     {
                         hints.map((hint) => {
@@ -64,14 +59,14 @@ const PanelResultDiagnostics: FC<panel> = ({ id, setPanel }) => {
                         <VerticalList list={pat}></VerticalList>
                     </CustomCard>
                 </CardGrid>
-            </Group>
+            </Group> */}
 
             <Group header={"Рекомендации"}>
                 <CardScroll size={false} withSpaces>
                     {
                         hints.map((hint) => {
                             return (
-                                <HintCard title={hint.title} description={hint.description}></HintCard>
+                                <HintCard title={hint.title} description={hint.text}></HintCard>
                             )
                         })
                     }

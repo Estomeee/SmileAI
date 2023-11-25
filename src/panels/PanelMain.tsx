@@ -39,7 +39,7 @@ const PanelMain: FC<IPanel> = ({ id, setPanel, user, data, hints }) => {
                     <UserInfo user={user}></UserInfo>
                 }
                 buttons={[
-                    { onClick: () => setPanel('diagnostics'), stretched: true, children: 'Провести диагностику' },
+                    { onClick: () => setPanel('fast'), stretched: true, children: 'Провести диагностику' },
                     { onClick: () => setPanel('store'), stretched: true, children: 'Магазин', appearance: "neutral" },
                     { onClick: () => setPanel('bucket'), stretched: true, children: 'Корзина', appearance: "neutral" },
                 ]} />
