@@ -18,6 +18,7 @@ import { ICategory } from './api/requests/Store.requests';
 import { useInit } from './hooks/useInit';
 import PanelFastDiagnostics from './panels/Diagnostics/PanelFastDiagnostics';
 import PanelEmpty from './panels/PanelEmpty';
+import PanelTariffs from './panels/PanelTariffs';
 
 export const panels = {
     main: 'main',
@@ -27,7 +28,8 @@ export const panels = {
     bucket: 'bucket',
     error: 'error',
     empty: 'empty',
-    resultDiagnostics: 'result'
+    resultDiagnostics: 'result',
+    tarrifs: 'tariffs'
 }
 
 function App() {
@@ -102,6 +104,10 @@ function App() {
                                     <PanelEmpty
                                         setPanel={setPanel}
                                         id={panels.empty} />
+                                    <PanelTariffs 
+                                        setPanel={setPanel}
+                                        id={panels.tarrifs}
+                                        onError={() => setPanel(panels.error)}/>
                                 </View>
                             </Root>
                         </SplitLayout>

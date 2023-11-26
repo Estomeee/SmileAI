@@ -5,8 +5,12 @@ import bridge from "@vkontakte/vk-bridge";
 import classes from "./UserInfo.module.css"
 import { IUserVK } from "../../api/requests/User.requests";
 
+interface Props {
+    user: IUserVK
+    onClick: () => void
+}
 
-const UserInfo: FC<{user: IUserVK}> = ({user}) => {
+const UserInfo: FC<Props> = ({user, onClick}) => {
     return (
         <Div className={classes.cont}>
             <Avatar src={user.img} size={96}></Avatar>
@@ -22,7 +26,7 @@ const UserInfo: FC<{user: IUserVK}> = ({user}) => {
                 >
                     Ваш тариф: &nbsp;
                 </Text>
-                <Button size="s" mode="link" stretched onClick={() => console.log('sdf')} >{'Бесплтаный'}</Button></div>
+                <Button size="s" mode="link" stretched onClick={onClick} >{'Бесплтаный'}</Button></div>
         </Div>
     )
 }

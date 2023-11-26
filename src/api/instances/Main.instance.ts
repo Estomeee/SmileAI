@@ -16,7 +16,8 @@ export const APIPoints = {
     removeFromBucket: 'cart/remove_from_cart',
     createNewBucket: 'cart/new_cart',
     createDiagnostics: 'researches/',
-    sendFormDiagnosics: 'researches/upload_photo/'
+    sendFormDiagnosics: 'researches/upload_photo/',
+    getTariffs: 'tariff/tariffs'
 }
 
 export default instance

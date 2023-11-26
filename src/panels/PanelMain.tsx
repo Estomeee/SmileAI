@@ -32,7 +32,7 @@ const PanelMain: FC<IPanel> = ({ id, setPanel, user, data, hints }) => {
 
             <MainActionBlock
                 content={
-                    <UserInfo user={user}></UserInfo>
+                    <UserInfo user={user} onClick={() => setPanel(panels.tarrifs)}></UserInfo>
                 }
                 buttons={[
                     { onClick: () => setPanel(panels.fastDiagnostics), stretched: true, children: 'Провести диагностику' },
