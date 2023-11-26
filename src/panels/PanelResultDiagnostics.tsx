@@ -15,6 +15,7 @@ import FixedDownBtns from "../components/FixedDownBtns/FixedDownBtns";
 import MainActionBlock from "../components/MainActionBlock/MainActionBlock";
 import PanelTemplate from "./PanelTemplate";
 import { IHint } from "../api/requests/Statistics.request";
+import { panels } from "../App";
 
 interface panel {
     id: string
@@ -27,14 +28,14 @@ interface panel {
 const PanelResultDiagnostics: FC<panel> = ({ id, setPanel, mark, hints }) => {
 
     return (
-        <PanelTemplate id={id} header="Диагностика" onClickBack={() => setPanel('main')}>
+        <PanelTemplate id={id} header="Диагностика" onClickBack={() => setPanel(panels.main)}>
             <MainActionBlock
                 content={
                     <BigNumber number={mark * 100} text="Общая оценка"></BigNumber>
                 }
                 buttons={[
-                    { stretched: true, children: 'На гавную', onClick: () => setPanel('main') },
-                    { mode: "secondary", stretched: true, children: 'Подобрать стоматолога' }
+                    { stretched: true, children: 'На гавную', onClick: () => setPanel(panels.main) },
+                    { mode: "secondary", stretched: true, children: 'Подобрать стоматолога',  onClick: () => setPanel(panels.empty) }
                 ]} />
 
 

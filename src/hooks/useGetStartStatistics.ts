@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { IHint, IStatisticsData, getHints, getStatisticsData } from '../api/requests/Statistics.request'
+import { IChart, IHint, IStatisticsData, getHints, getStatisticsData } from '../api/requests/Statistics.request'
 
 
 
@@ -7,9 +7,12 @@ import { IHint, IStatisticsData, getHints, getStatisticsData } from '../api/requ
 
 export async function getStartStatistic(vkID: number, onError: () => void) {
 
-    let data: IStatisticsData[] = []
+    let data: IChart | null = {week: [], month: []}
     const dataAns = await getStatisticsData(vkID)
-    dataAns.object ? data = dataAns.object : onError()
+    const dataMonthAns = await getStatisticsData(vkID, 'Month');
+    console.log(dataMonthAns);
+    
+    (dataAns.object && dataMonthAns.object) ? data = {week: dataAns.object, month: dataMonthAns.object} : onError()
 
     let hints: IHint[] = []
     const hintsAns = await getHints(vkID)
@@ -23,13 +26,13 @@ export async function getStartStatistic(vkID: number, onError: () => void) {
 export const useGetStartStatistics = (vkID: number, onError: () => void) => {
 
     const [hints, setHints] = useState<IHint[]>([])
-    const [statisticsData, setStatisticsData] = useState<IStatisticsData[]>([])
+    const [statisticsData, setStatisticsData] = useState<IChart>()
 
     useEffect(() => {
         getStartStatistic(vkID, onError)
             .then(({ data, hints }) => {
                 setHints(hints)
-                setStatisticsData(data)
+                data? setStatisticsData(data) : onError()
             })
             .catch(() => { console.log('her') } // не выдаёт ошибку
 

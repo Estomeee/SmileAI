@@ -8,6 +8,7 @@ import { IProduct } from "../api/requests/Store.requests";
 import ProductItem from "../components/ProductItem/ProductItem";
 import { createNewBucket, removeFromBucket } from "../api/requests/Bucket.requets";
 import FixedDownBtns from "../components/FixedDownBtns/FixedDownBtns";
+import { panels } from "../App";
 
 
 interface Props {
@@ -32,7 +33,7 @@ const PanelBucket: FC<Props> = ({ id, setPanel, bucket, vkID, setBucket, apiID }
     }
 
     return (
-        <PanelTemplate id={id} header="Коризна" onClickBack={() => setPanel('main')}>
+        <PanelTemplate id={id} header="Коризна" onClickBack={() => setPanel(panels.main)}>
             <GroupVK>
                 <Div>
                     <List style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
@@ -54,13 +55,14 @@ const PanelBucket: FC<Props> = ({ id, setPanel, bucket, vkID, setBucket, apiID }
             </GroupVK>
             <FixedDownBtns btns={[
                 (<Button
+                    key={1}
                     size="m"
                     stretched
                     mode="primary"
                     onClick={() => createNewBucket(apiID).then((ans) => {
-                        if (ans) setBucket({id:ans.curent_cart_id, products: [] })
+                        if (ans) setBucket({ id: ans.curent_cart_id, products: [] })
                         else console.log('Ошибка при создании новой корзины');
-                        
+
                     })}>
                     {'Оформить заказ'}
                 </Button>)

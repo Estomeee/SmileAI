@@ -6,6 +6,7 @@ import FixedDownBtns from "../components/FixedDownBtns/FixedDownBtns";
 import PanelTemplate from "./PanelTemplate";
 import { getCategories, getProducts, ICategory, initStore, IProduct } from "../api/requests/Store.requests";
 import { addToBucket } from "../api/requests/Bucket.requets";
+import { panels } from "../App";
 
 interface IPanel {
     id: string
@@ -35,7 +36,6 @@ const PanelStore: FC<IPanel> = ({
 
     useEffect(() => {
         if (categories.length > 0 && categories.length > 0) return
-        console.log('store');
         initStore().then(({ categories, catProducts }) => {
             setCategories(categories)
             setProductsByCategories(catProducts)
@@ -61,13 +61,14 @@ const PanelStore: FC<IPanel> = ({
     }
 
     return (
-        <PanelTemplate id={id} header="Магазин" onClickBack={() => setPanel('main')}>
+        <PanelTemplate id={id} header="Магазин" onClickBack={() => setPanel(panels.main)}>
             <GroupVK style={{ marginBottom: 100 }}>
                 {productsByCategories.length <= 0 ?
                     <Spinner size="medium" style={{ margin: '20px 0' }} /> :
 
                     productsByCategories.map((item) => {
-                        return (
+                        
+                        return (                            
                             <Category
                                 key={item.nameCategory}
                                 bucket={bucket.products}
@@ -82,10 +83,11 @@ const PanelStore: FC<IPanel> = ({
 
             <FixedDownBtns btns={[
                 (<Button
+                    key={1}
                     size="m"
                     stretched
                     mode="secondary"
-                    onClick={() => setPanel('bucket')}>
+                    onClick={() => setPanel(panels.bucket)}>
                     {'Корзина(' + bucket.products.length + ')'}
                 </Button>)
             ]}>

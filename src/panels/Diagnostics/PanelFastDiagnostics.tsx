@@ -6,6 +6,7 @@ import FixedDownBtns from '../../components/FixedDownBtns/FixedDownBtns'
 import { useFastDiagnosticsForm } from './hooks/useFastDiagnosticsForm'
 import Group from '../../components/Group/Group'
 import { diagnostics } from '../../api/requests/FastDiagnostics'
+import { panels } from '../../App'
 
 interface Props {
     id: string
@@ -21,9 +22,9 @@ interface IForm {
 }
 
 const optoins = [
-    { label: 'Спереди', value: 'Front' },
-    { label: 'Сверху', value: 'Upper' },
-    { label: 'Снизу', value: 'Lower' }]
+    { label: 'Передние зубы', value: 'Front' },
+    { label: 'Верхние зубы', value: 'Upper' },
+    { label: 'Нижние зубы', value: 'Lower' }]
 
 const PanelFastDiagnostics: FC<Props> = ({ id, setPanel, setModal, apiID, setMark }) => {
 
@@ -42,15 +43,19 @@ const PanelFastDiagnostics: FC<Props> = ({ id, setPanel, setModal, apiID, setMar
         setLoad(true)
         const reuslt = diagnostics(apiID, form.file, form.name).then(
             (response) => {
-                if (!response) setPanel('error')
-                setMark(response?.jaw.percentage)
-                setPanel('resultDiagnostics')
+                console.log(response);
+
+                if (!response) setPanel(panels.error)
+                else {
+                    setMark(response?.jaw.percentage)
+                    setPanel(panels.resultDiagnostics)
+                }
             }
         )
     }
 
     return (
-        <PanelTemplate id={id} header="Диагностика" onClickBack={() => setPanel('main')}>
+        <PanelTemplate id={id} header="Диагностика" onClickBack={() => setPanel(panels.main)}>
             <Group header={'Выберите категорию'}>
                 <Div>
                     <Select
@@ -71,11 +76,13 @@ const PanelFastDiagnostics: FC<Props> = ({ id, setPanel, setModal, apiID, setMar
 
             <FixedDownBtns btns={[
                 (<Button
+                    key={1}
                     size="m"
                     mode="secondary"
                     onClick={() => setModal('examples')}
                     stretched>Показать примеры</Button>),
                 (<Button
+                    key={2}
                     size="m"
                     onClick={onClickBtn}
                     disabled={(form.file && form.name && !load) ? false : true}

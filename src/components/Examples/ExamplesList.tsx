@@ -4,7 +4,7 @@ import ExampleItem from './ExampleItem'
 
 
 interface Props {
-    exampleList: { header: string, descr: string, imgSrc: string }[]
+    exampleList: { header: string, descr: string, imgSrc: string[] }[]
 }
 
 const ExamplesList: FC<Props> = ({ exampleList }) => {
@@ -12,7 +12,7 @@ const ExamplesList: FC<Props> = ({ exampleList }) => {
         <ul>
             {exampleList.map((item) => {
                 return (
-                    <ExampleItem header={item.header} descr={item.descr} imgSrc={item.imgSrc}></ExampleItem>
+                    <ExampleItem header={item.header} descr={item.descr} imgs={item.imgSrc}></ExampleItem>
                 )
             })}
         </ul>

@@ -18,12 +18,30 @@ const Examples: FC<Props> = ({ id, closeModal }) => {
                 <List>
                     {
                         [
-                            { header: 'Спереди', descr: 'Оголите передние зубы так, словно вы улыбаетесь.', imgSrc: 'https://za-rozhdenie.ru/wp-content/uploads/2019/08/xqymbm3k.jpg' },
-                            { header: 'Слева', descr: 'В частности, базовый вектор развития, в своём классическом представлении, допускает внедрение поэтапного и последовательного развития общества. ', imgSrc: 'https://za-rozhdenie.ru/wp-content/uploads/2019/08/xqymbm3k.jpg' },
-                            { header: 'Справа', descr: 'В частности, базовый вектор развития, в своём классическом представлении, допускает внедрение поэтапного и последовательного развития общества. ', imgSrc: 'https://za-rozhdenie.ru/wp-content/uploads/2019/08/xqymbm3k.jpg' },
-                            { header: 'Нижние зубы внутри', descr: 'В частности, базовый вектор развития, в своём классическом представлении, допускает внедрение поэтапного и последовательного развития общества. ', imgSrc: 'https://za-rozhdenie.ru/wp-content/uploads/2019/08/xqymbm3k.jpg' },
-                            { header: 'Верхние зубы внутри', descr: 'В частности, базовый вектор развития, в своём классическом представлении, допускает внедрение поэтапного и последовательного развития общества. ', imgSrc: 'https://za-rozhdenie.ru/wp-content/uploads/2019/08/xqymbm3k.jpg' }
-                        ].map((item) => <ExampleItem header={item.header} descr={item.descr} imgSrc={item.imgSrc}></ExampleItem>)
+                            {
+                                header: 'Передние зубы',
+                                descr: 'Оголите передние зубы так, словно вы улыбаетесь.',
+                                imgSrc: [
+                                    'https://storage.yandexcloud.net/products-url/front.jpg',
+                                    'https://storage.yandexcloud.net/products-url/front.jpg',
+                                    'https://storage.yandexcloud.net/products-url/front.jpg'
+                                ]
+                            },
+                            {
+                                header: 'Верхние зубы',
+                                descr: 'Оголите передние зубы так, словно вы улыбаетесь.',
+                                imgSrc: [
+                                    'https://storage.yandexcloud.net/products-url/upper.jpg',
+                                ]
+                            },
+                            {
+                                header: 'Нижние зубы',
+                                descr: 'Оголите передние зубы так, словно вы улыбаетесь.',
+                                imgSrc: [
+                                    'https://storage.yandexcloud.net/products-url/lower.jpg',
+                                ]
+                            },
+                        ].map((item) => <ExampleItem header={item.header} descr={item.descr} imgs={item.imgSrc} />)
                     }
                 </List>
             </Div>

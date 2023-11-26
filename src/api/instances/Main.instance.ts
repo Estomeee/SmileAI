@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const instance = axios.create({
     baseURL: 'https://51.250.123.14:8081/api/',
-    timeout: 8000,
+    timeout: 10000,
     headers: { 'sign-url': 'foobar' } //
 });
 

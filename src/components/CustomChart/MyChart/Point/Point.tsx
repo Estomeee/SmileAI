@@ -30,16 +30,19 @@ const Point: FC<Props> = ({ setTooltip, valueX, valueY, width, height, id }) => 
     }
 
     return (
-        <div
-            ref={ref}
-            id={id}
-            style={{
-                width: width,
-                height: height * valueY / 100 > height? height: height * valueY / 100 + 40 // 40 убрать
-            }}
-            className={style}
+        <div className={classes.cont_point} style={{ height: "100%", display: 'flex', alignItems: 'end' }}
             onMouseEnter={hover}
-            onMouseLeave={leave} ></div>
+            onMouseLeave={leave}>
+            <div
+                ref={ref}
+                id={id}
+                style={{
+                    width: width,
+                    height: height * valueY / 100 > height ? height : height * valueY / 100
+                }}
+                className={style}
+            />
+        </div>
     )
 }
 

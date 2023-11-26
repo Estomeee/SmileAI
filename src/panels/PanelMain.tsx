@@ -12,22 +12,18 @@ import MyChart from "../components/CustomChart/MyChart/MyChart";
 import MainActionBlock from "../components/MainActionBlock/MainActionBlock";
 import PanelTemplate from "./PanelTemplate";
 import { IUserVK } from "../api/requests/User.requests";
-import { IStatisticsData, IHint } from "../api/requests/Statistics.request";
+import { IStatisticsData, IHint, IChart } from "../api/requests/Statistics.request";
+import { panels } from "../App";
 
 interface IPanel {
     id: string
     setPanel: any
     user: IUserVK
-    data: IStatisticsData[],
+    data: IChart,
     hints: IHint[]
 }
 
 const PanelMain: FC<IPanel> = ({ id, setPanel, user, data, hints }) => {
-
-    const { isDesktop } = useAdaptivityWithJSMediaQueries()
-
-    const pat = [{ key: 0, val: 'Кариес' }, { key: 1, val: 'Проблемы с дёснаснами' }, { key: 2, val: 'Скол' }, { key: 3, val: 'Что-то ещё' }, { key: 4, val: 'А? 5' }]
-    
 
     return (
         <PanelTemplate id={id} header="Улыбнись AI">
@@ -39,9 +35,10 @@ const PanelMain: FC<IPanel> = ({ id, setPanel, user, data, hints }) => {
                     <UserInfo user={user}></UserInfo>
                 }
                 buttons={[
-                    { onClick: () => setPanel('fast'), stretched: true, children: 'Провести диагностику' },
-                    { onClick: () => setPanel('store'), stretched: true, children: 'Магазин', appearance: "neutral" },
-                    { onClick: () => setPanel('bucket'), stretched: true, children: 'Корзина', appearance: "neutral" },
+                    { onClick: () => setPanel(panels.fastDiagnostics), stretched: true, children: 'Провести диагностику' },
+                    { onClick: () => setPanel(panels.empty), stretched: true, children: 'Подобрать стоматолога', appearance: "neutral" },
+                    { onClick: () => setPanel(panels.store), stretched: true, children: 'Магазин', appearance: "neutral" },
+                    { onClick: () => setPanel(panels.bucket), stretched: true, children: 'Корзина', appearance: "neutral" },
                 ]} />
 
             <Group header={"Статистика"}>
@@ -49,7 +46,7 @@ const PanelMain: FC<IPanel> = ({ id, setPanel, user, data, hints }) => {
                     <CustomCard header="Сосотояние вашей улыбки">
                         <Div>
                             {
-                                data.length > 0 ? <MyChart height={80} dataset={data} /> :
+                                data.month.length > 0 ? <MyChart height={80} dataset={data} /> :
                                     'Данных ещё нет'
                             }
                         </Div>

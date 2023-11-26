@@ -7,8 +7,6 @@ import { IUserVK } from "../../api/requests/User.requests";
 
 
 const UserInfo: FC<{user: IUserVK}> = ({user}) => {
-    console.log('userinfo');
-    
     return (
         <Div className={classes.cont}>
             <Avatar src={user.img} size={96}></Avatar>

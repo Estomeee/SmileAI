@@ -3,10 +3,14 @@ import { useState, useEffect } from 'react'
 import { IUserAPI, IUserVK, createUser, getUserApi, getUserBridge } from '../api/requests/User.requests';
 import { getBucket } from '../api/requests/Bucket.requets';
 import { IProduct } from '../api/requests/Store.requests';
-import { IHint, IStatisticsData, getStatisticsData } from '../api/requests/Statistics.request';
+import { IChart, IHint, IStatisticsData, getStatisticsData } from '../api/requests/Statistics.request';
 import { getStartStatistic } from './useGetStartStatistics';
+import bridge from '@vkontakte/vk-bridge';
 
 //Написать promise с выбросом ошибки
+
+
+
 
 export async function init(onError: () => void) {
 
@@ -16,8 +20,6 @@ export async function init(onError: () => void) {
     // получение телефона (позже)
     let userApi = await getUserApi(userVK.id)
     console.log(userApi);
-
-
 
     if (userApi.state == 404) {
         if (!(await createUser(userVK))) {
@@ -33,15 +35,14 @@ export async function init(onError: () => void) {
         onError()
     }
 
-
-
     // следующий этап это получение корзины
     const bucket = await getBucket(userApi.object ? userApi.object?.curent_cart_id : -1)
 
 
     // последний этап - получение данных по зубам ( данные для диаграммы, паталогии, рекомендации )
     const { hints, data } = await getStartStatistic(userVK.id, onError)
-
+    console.log(data);
+    
     return {
         user: userApi.object,
         bucket: {
@@ -56,11 +57,10 @@ export async function init(onError: () => void) {
 
 export const useInit = (onError: () => void) => {
 
-    const [load, setLoad] = useState<boolean>(false)
     const [bucket, setBucket] = useState<{ id: number, products: IProduct[] }>({ id: -1, products: [] })
     const [user, setUser] = useState<IUserAPI | null>(null)
     const [userVK, setUserVK] = useState<IUserVK>({ id: -1, name: '', surname: '', img: '' })
-    const [statisticsData, setStatisticsData] = useState<IStatisticsData[]>([])
+    const [statisticsData, setStatisticsData] = useState<IChart>({week: [], month: []})
     const [hints, setHints] = useState<IHint[]>([])
 
     useEffect(() => {
@@ -68,10 +68,11 @@ export const useInit = (onError: () => void) => {
             .then(({ user, bucket, userVK, statisticsData, hints }) => {
                 setUser(user)
                 setBucket((bucket.id && bucket.products) ? bucket : { id: -1, products: [] })
-                setLoad(true)
                 setUserVK(userVK)
                 setStatisticsData(statisticsData)
                 setHints(hints)
+                bridge.send('VKWebAppInit')
+                console.log(statisticsData)
             })
             .catch(() => { console.log('her') } // не выдаёт ошибку
 
@@ -79,5 +80,5 @@ export const useInit = (onError: () => void) => {
     }, [])
 
 
-    return { user: user, userVK: userVK, bucket: bucket, load: load, setBucket: setBucket, data: statisticsData, hints }
+    return { user: user, userVK: userVK, bucket: bucket, setBucket: setBucket, data: statisticsData, hints }
 }

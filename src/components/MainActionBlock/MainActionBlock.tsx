@@ -16,9 +16,9 @@ const MainActionBlock: FC<Props> = ({content, buttons}) => {
     
             <Div>
                 <ButtonGroup stretched align="center" mode="vertical">
-                    {buttons.map((props) => {
+                    {buttons.map((props, index) => {
                         return(
-                            <Button {...props} size='m'></Button>
+                            <Button key={index} {...props} size='m'></Button>
                         )
                     })}
                 </ButtonGroup>

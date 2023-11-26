@@ -13,6 +13,12 @@ export interface IHint {
     text: string
 }
 
+
+export interface IChart {
+    week: IStatisticsData[]
+    month: IStatisticsData[]
+}
+
 export const getStatisticsData = async (vkID: number, period: "Week" | "Month" = 'Week') => { //type
     return await createPromiseObj<IStatisticsData[]>(
         instance.get('researches/vk/statistic/' + vkID.toString(), {

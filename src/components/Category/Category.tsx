@@ -1,8 +1,9 @@
 import { FC } from 'react'
-import { CardScroll, Text } from '@vkontakte/vkui'
+import { Button, Card, CardScroll, Div, IconButton, Text } from '@vkontakte/vkui'
 import ProductItem from '../ProductItem/ProductItem'
 import Group from '../Group/Group'
 import { IProduct } from '../../api/requests/Store.requests'
+import { Icon24AddCircleOutline } from '@vkontakte/icons';
 
 interface Props {
     nameCategory: string
@@ -33,10 +34,11 @@ const Category: FC<Props> = ({ nameCategory, products, bucket, onClickBtn, onCli
                             labalBtn='В корзину'
                             onClickItem={onClickItem}
                             onClickBtn={onClickBtn}
-                            isAdded={checkIsAdded(bucket, product)} 
-                            width='130px'/>)
+                            isAdded={checkIsAdded(bucket, product)}
+                            width='130px' />)
                 })}
             </CardScroll>
+
         </Group >
     )
 }

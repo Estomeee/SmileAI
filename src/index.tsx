@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import bridge from '@vkontakte/vk-bridge';        
 
-bridge.send('VKWebAppInit')
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
