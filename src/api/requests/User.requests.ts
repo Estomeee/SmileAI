@@ -35,7 +35,7 @@ export const getUserBridge = async () => {
     const user: IUserVK = await bridge.send('VKWebAppGetUserInfo', {})
         .then((data) => {
             console.log('user');
-            
+
             return { id: data.id, name: data.first_name, surname: data.last_name, img: data.photo_200 }
         })
         .catch() //выкинуть из приложения с уведомлением об ошибке
@@ -63,4 +63,14 @@ export const createUser = async (user: IUserVK) => {
 
             img: user.img ? user.img : ''
         }))
+}
+
+
+export const dentist = async (vkId: number) => {
+    instance.post(APIPoints.dentist, {
+        client_vk_id: vkId.toString()
+    })
+    .then(() => {})
+    .catch((error) => console.log(error)
+    )
 }

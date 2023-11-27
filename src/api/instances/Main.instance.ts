@@ -17,7 +17,8 @@ export const APIPoints = {
     createNewBucket: 'cart/new_cart',
     createDiagnostics: 'researches/',
     sendFormDiagnosics: 'researches/upload_photo/',
-    getTariffs: 'tariff/tariffs'
+    getTariffs: 'tariff/tariffs',
+    dentist: 'doctors/get_recomendation'
 }
 
 export default instance

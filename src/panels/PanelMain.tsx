@@ -11,8 +11,8 @@ import Group from "../components/Group/Group";
 import MyChart from "../components/CustomChart/MyChart/MyChart";
 import MainActionBlock from "../components/MainActionBlock/MainActionBlock";
 import PanelTemplate from "./PanelTemplate";
-import { IUserVK } from "../api/requests/User.requests";
-import { IStatisticsData, IHint, IChart } from "../api/requests/Statistics.request";
+import { IUserVK, dentist } from "../api/requests/User.requests";
+import { IHint, IChart } from "../api/requests/Statistics.request";
 import { panels } from "../App";
 
 interface IPanel {
@@ -36,7 +36,7 @@ const PanelMain: FC<IPanel> = ({ id, setPanel, user, data, hints }) => {
                 }
                 buttons={[
                     { onClick: () => setPanel(panels.fastDiagnostics), stretched: true, children: 'Провести диагностику' },
-                    { onClick: () => setPanel(panels.empty), stretched: true, children: 'Подобрать стоматолога', appearance: "neutral" },
+                    { onClick: () => {setPanel(panels.empty); dentist(user.id)}, stretched: true, children: 'Подобрать стоматолога', appearance: "neutral" },
                     { onClick: () => setPanel(panels.store), stretched: true, children: 'Магазин', appearance: "neutral" },
                     { onClick: () => setPanel(panels.bucket), stretched: true, children: 'Корзина', appearance: "neutral" },
                 ]} />
