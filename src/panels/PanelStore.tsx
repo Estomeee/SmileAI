@@ -34,6 +34,12 @@ const PanelStore: FC<IPanel> = ({
     setProductsByCategories,
 }) => {
 
+    const names: { [key: string]: string } = {
+        Toothbrush: 'Зубные щётки',
+        Toothpaste: 'Зубные пасты',
+        Other: 'Другое'
+    }
+
     useEffect(() => {
         if (categories.length > 0 && categories.length > 0) return
         initStore().then(({ categories, catProducts }) => {
@@ -54,7 +60,7 @@ const PanelStore: FC<IPanel> = ({
             if (ans)
                 setBucket({ id: bucket.id, products: [...bucket.products, product] })
             else console.log('Не добалвен');
-            
+
         }
         )
 
@@ -67,12 +73,12 @@ const PanelStore: FC<IPanel> = ({
                     <Spinner size="medium" style={{ margin: '20px 0' }} /> :
 
                     productsByCategories.map((item) => {
-                        
-                        return (                            
+
+                        return (
                             <Category
                                 key={item.nameCategory}
                                 bucket={bucket.products}
-                                nameCategory={item.nameCategory}
+                                nameCategory={names[item.nameCategory]}
                                 products={item.products}
                                 onClickBtn={onClickAdd}
                                 onClickItem={(id) => console.log(id)}

@@ -1,36 +1,27 @@
-import { FC, PropsWithChildren, useState } from 'react'
-import { List, Cell, Text, Button, Separator } from '@vkontakte/vkui'
+import { FC } from 'react'
+import { List, Cell, Text, Div } from '@vkontakte/vkui'
 
-interface Props extends PropsWithChildren {
-    list: { key: number, val: string }[]
+interface Props {
+    list: { name: string, description: string }[]
 }
 
 const VerticalList: FC<Props> = ({ list }) => {
-    const [listState, setListState] = useState(list)
-
-    function showMore() {
-        setListState((prev) => {
-            return prev.concat(prev)
-        })
-    }
 
     return (
         <>
             <List>
-                {listState.map((item) => (
+                {list.map((item, index) => (
                     <>
-                        <Cell key={item.key} >
+                        <Div key={index} >
                             <Text>
-                                {item.val}
+                                {item.name}
                             </Text>
-                        </Cell>
+                        </Div>
 
                     </>
 
                 ))}
             </List>
-            <Separator wide></Separator>
-            <Button size="l" mode="link" stretched onClick={showMore} >Показать всю историю</Button>
         </>
     )
 }

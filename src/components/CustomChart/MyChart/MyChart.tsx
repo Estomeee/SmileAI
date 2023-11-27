@@ -5,7 +5,7 @@ import { Button, ButtonGroup, Text } from '@vkontakte/vkui';
 
 import Tooltip from './Tooltip/Tooltip';
 import Point from './Point/Point';
-import { IChart, IStatisticsData } from '../../../api/requests/Statistics.request';
+import { IChart } from '../../../api/requests/Statistics.request';
 import moment from 'moment';
 import 'moment/locale/ru'
 
@@ -20,7 +20,7 @@ const MyChart: FC<Props> = ({ height, dataset }) => {
     const [tooltip, setTooltip] = useState({ ValueX: '', ValueY: '', PosX: 0 });
     const ref = useRef<HTMLHeadingElement>(null);
     const [flag, setFlag] = useState<'week' | 'month'>('month')
-  ;
+  
     
     return (
         <div className={classes.cont} >

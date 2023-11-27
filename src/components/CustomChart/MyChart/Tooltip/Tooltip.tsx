@@ -29,10 +29,7 @@ const Tooltip: FC<Props> = ({ tooltipPosX, children }) => {
 
         const displayWidth = refTooltip.current?.parentElement?.offsetWidth ? refTooltip.current?.parentElement?.offsetWidth : 0
         const posDispley = refDisplay.current?.getBoundingClientRect() ? refDisplay.current?.getBoundingClientRect().x : 0
-        const widthTooltip = refTooltip.current ? refTooltip.current.offsetWidth : 0
-
-        console.log(widthTooltip);
-        
+        const widthTooltip = refTooltip.current ? refTooltip.current.offsetWidth : 0        
         setPos(getTooltipCoordinate(tooltipPosX, posDispley, widthTooltip, displayWidth))
 
     }, [children])
