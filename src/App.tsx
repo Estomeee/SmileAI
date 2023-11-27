@@ -19,6 +19,7 @@ import { useInit } from './hooks/useInit';
 import PanelFastDiagnostics from './panels/Diagnostics/PanelFastDiagnostics';
 import PanelEmpty from './panels/PanelEmpty';
 import PanelTariffs from './panels/Tariffs/PanelTariffs';
+import ModalEmpty from './modals/ModalEmpty';
 
 export const panels = {
     main: 'main',
@@ -56,6 +57,7 @@ function App() {
                             modal={
                                 <ModalRoot activeModal={modal}>
                                     <Examples id='examples' closeModal={closeModal} />
+                                    <ModalEmpty id='ModalEmpty' closeModal={closeModal}/>
                                 </ModalRoot>
                             }
                             popout={popout}>
@@ -107,7 +109,8 @@ function App() {
                                     <PanelTariffs 
                                         setPanel={setPanel}
                                         id={panels.tarrifs}
-                                        onError={() => setPanel(panels.error)}/>
+                                        onError={() => setPanel(panels.error)}
+                                        setModal={setModal}/>
                                 </View>
                             </Root>
                         </SplitLayout>

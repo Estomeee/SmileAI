@@ -17,10 +17,11 @@ interface IPanel {
     id: string
     setPanel: any
     onError: any
+    setModal: any
 }
 
 
-const PanelTariffs: FC<IPanel> = ({ id, setPanel, onError }) => {
+const PanelTariffs: FC<IPanel> = ({ id, setPanel, onError, setModal }) => {
 
     const [tariffs, setTariffs] = useState<ITariff[]>([])
 
@@ -38,8 +39,8 @@ const PanelTariffs: FC<IPanel> = ({ id, setPanel, onError }) => {
     return (
         <>
             {curTariff ?
-                <PanelCurTariffs id={panels.tarrifs} setPanel={setPanel} tariff={curTariff} onError={onError} setCurTariff={setCurTariff} /> :
-                <PanelShowTariffs tariffs={tariffs} id={panels.tarrifs} setPanel={setPanel} onError={onError} setCurTariff={setCurTariff} />
+                <PanelCurTariffs setModal={setModal} id={id} setPanel={setPanel} tariff={curTariff} onError={onError} setCurTariff={setCurTariff} /> :
+                <PanelShowTariffs tariffs={tariffs} id={id} setPanel={setPanel} onError={onError} setCurTariff={setCurTariff} />
             }
         </>
     )

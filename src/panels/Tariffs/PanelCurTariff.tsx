@@ -21,12 +21,13 @@ interface IPanel {
     onError: any
     tariff: ITariff
     setCurTariff: any
+    setModal: any
 }
 
 
 
 
-const PanelCurTariffs: FC<IPanel> = ({ id, tariff, setPanel, onError, setCurTariff }) => {
+const PanelCurTariffs: FC<IPanel> = ({ id, tariff, setPanel, onError, setCurTariff, setModal }) => {
 
     const [tariffs, setTariffs] = useState<ITariff[]>([])
 
@@ -49,7 +50,7 @@ const PanelCurTariffs: FC<IPanel> = ({ id, tariff, setPanel, onError, setCurTari
                     </div>
                 }
                 buttons={[
-                    { stretched: true, children: 'Подключить тариф', onClick: () => setPanel(panels.main) },
+                    { stretched: true, children: 'Подключить тариф', onClick: () => setModal('ModalEmpty') },
                 ]} />
 
 
