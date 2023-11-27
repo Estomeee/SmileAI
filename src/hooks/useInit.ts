@@ -15,11 +15,11 @@ import bridge from '@vkontakte/vk-bridge';
 export async function init(onError: () => void) {
 
     const userVK = await getUserBridge() //не обработана ошибка
-    console.log(userVK);
+   
 
     // получение телефона (позже)
     let userApi = await getUserApi(userVK.id)
-    console.log(userApi);
+  
 
     if (userApi.state == 404) {
         if (!(await createUser(userVK))) {
@@ -41,7 +41,7 @@ export async function init(onError: () => void) {
 
     // последний этап - получение данных по зубам ( данные для диаграммы, паталогии, рекомендации )
     const { hints, data } = await getStartStatistic(userVK.id, onError)
-    console.log(data);
+   
     
     return {
         user: userApi.object,
@@ -72,7 +72,7 @@ export const useInit = (onError: () => void) => {
                 setStatisticsData(statisticsData)
                 setHints(hints)
                 bridge.send('VKWebAppInit')
-                console.log(statisticsData)
+          
             })
             .catch(() => { console.log('her') } // не выдаёт ошибку
 

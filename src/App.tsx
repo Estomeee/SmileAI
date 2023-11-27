@@ -18,7 +18,7 @@ import { ICategory } from './api/requests/Store.requests';
 import { useInit } from './hooks/useInit';
 import PanelFastDiagnostics from './panels/Diagnostics/PanelFastDiagnostics';
 import PanelEmpty from './panels/PanelEmpty';
-import PanelTariffs from './panels/PanelTariffs';
+import PanelTariffs from './panels/Tariffs/PanelTariffs';
 
 export const panels = {
     main: 'main',

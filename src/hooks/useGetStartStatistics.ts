@@ -10,7 +10,6 @@ export async function getStartStatistic(vkID: number, onError: () => void) {
     let data: IChart | null = {week: [], month: []}
     const dataAns = await getStatisticsData(vkID)
     const dataMonthAns = await getStatisticsData(vkID, 'Month');
-    console.log(dataMonthAns);
     
     (dataAns.object && dataMonthAns.object) ? data = {week: dataAns.object, month: dataMonthAns.object} : onError()
 
